@@ -4,6 +4,7 @@ Bundler.require
 # require_all 'models'
 require_all 'lib'
 
+        
 require_relative '../app/models/application.rb'
 require_relative '../app/models/cli.rb'
 require_relative '../app/models/job_posting.rb'

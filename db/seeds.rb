@@ -1,6 +1,6 @@
-User.destroy_all
-JobPosting.destroy_all
-Application.destroy_all
+# User.destroy_all
+# JobPosting.destroy_all
+# Application.destroy_all
 
 require_relative '../app/models/application.rb'
 require_relative '../app/models/cli.rb'
@@ -35,14 +35,14 @@ user_10 = User.create(name: "Sarah", dob: 19950202,location: "Oakland", degree: 
 
 
 # Job Application user_id, job_posting_id, status
-application_1 = Application.create(user_id: 45, job_posting_id: 45, status: false)
-application_2 = Application.create(user_id: 46, job_posting_id: 49, status: true)
-application_3 = Application.create(user_id: 38, job_posting_id: 41, status: false)
-application_4 = Application.create(user_id: 47, job_posting_id: 47, status: true)
-application_5 = Application.create(user_id: 42, job_posting_id: 45, status: true)
+application_1 = Application.create(user_id: 221, job_posting_id: 211, status: false)
+application_2 = Application.create(user_id: 222, job_posting_id: 212, status: true)
+application_3 = Application.create(user_id: 223, job_posting_id: 213, status: false)
+application_4 = Application.create(user_id: 224, job_posting_id: 214, status: true)
+application_5 = Application.create(user_id: 225, job_posting_id: 215, status: true)
 
 
 puts "Seeds done!"
 
-
+# binding.pry
 
