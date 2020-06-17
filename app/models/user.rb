@@ -103,6 +103,7 @@ class User < ActiveRecord::Base
     def self.delete_user
         user = User.get_current_user
         user.destroy
+        puts "Your profile has been deleted."
     end
 
 end

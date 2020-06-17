@@ -5,7 +5,7 @@ class CLI
 
     def main_menu
         prompt = TTY::Prompt.new
-        prompt.select("Welcome to the job search app! What would you like to do?") do |menu|
+        prompt.select("Welcome to InDoubt, the #1 rated job search app! What would you like to do?") do |menu|
             menu.choice "Create User Profile", -> {create_profile}
             menu.choice "Update User Profile", -> {update_profile}
             menu.choice "Search for Job Positions", -> {find_matching_job_positions}
@@ -67,6 +67,7 @@ class CLI
             menu.choice "Yes", -> {Application.application_submit}
             menu.choice "No", -> {main_menu}
         end
+        main_menu
     end
 
     def submit_application
