@@ -9,11 +9,11 @@
 * Create initial migrations. DONE
 * Seed database with provisional data. DONE
 * Create method that greets users. DONE
-* Create main menu method.
-    - Check for invalid input.
-* Create CRUD methods.
+* Create main menu method. DONE
+    - Check for invalid input. DONE
+* Create CRUD methods. DONE
 * Find suitable API, and link to database.
-* Test all methods.
+* Test all methods. DONE
 * Refactor methods.
 * Stretch goals.
 * Create README which includes:

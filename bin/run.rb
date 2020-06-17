@@ -10,10 +10,11 @@ app.main_menu
 # app.saved_job_postings
 # app.find_matching_job_positions
 # app.jobs_applied
+# app.delete_all_apps
 
 # puts "HELLO WORLD"
 
 
-# require 'pry'
+require 'pry'
 
 # binding.pry
