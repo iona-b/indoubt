@@ -10,18 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 4) do
 
   create_table "applications", force: :cascade do |t|
     t.integer "user_id"
     t.integer "job_posting_id"
-    t.boolean "status"
   end
 
   create_table "job_postings", force: :cascade do |t|
     t.string "location"
     t.string "job_title"
-    t.string "field"
     t.integer "salary"
     t.string "contract_type"
     t.boolean "remote"
@@ -31,7 +29,7 @@ ActiveRecord::Schema.define(version: 3) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.datetime "dob"
+    t.date "dob"
     t.string "location"
     t.string "degree"
     t.integer "years_experience"

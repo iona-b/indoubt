@@ -6,14 +6,15 @@ class CLI
     def main_menu
         prompt = TTY::Prompt.new
         prompt.select("Welcome to InDoubt, the #1 rated job search app! What would you like to do?") do |menu|
-            menu.choice "Create User Profile", -> {create_profile}
-            menu.choice "Update User Profile", -> {update_profile}
-            menu.choice "Search for Job Positions", -> {find_matching_job_positions}
-            menu.choice "Apply for a Job", -> {submit_application}
-            menu.choice "View Your Job Applications", -> {jobs_applied}
-            menu.choice "Delete Your Job Applications", -> {delete_applications}
-            menu.choice "Delete Your Profile", -> {delete_user}
-            menu.choice "Exit", -> {exit}
+            menu.choice "Create User Profile", -> {system "clear"; create_profile}
+            menu.choice "View User Profile", -> {system "clear"; view_profile}
+            menu.choice "Update User Profile", -> {system "clear"; update_profile}
+            menu.choice "Search for Job Positions", -> {system "clear"; find_matching_job_positions}
+            menu.choice "Apply for a Job", -> {system "clear"; submit_application}
+            menu.choice "View Your Job Applications", -> {system "clear"; jobs_applied}
+            menu.choice "Delete Your Job Applications", -> {system "clear"; delete_applications}
+            menu.choice "Delete Your Profile", -> {system "clear"; delete_user}
+            menu.choice "Exit", -> {system "clear"; exit}
         end
     end
  
@@ -25,6 +26,7 @@ class CLI
         User.get_degree
         User.get_experience
         User.employed?
+        system "clear";
         user_id = User.create_profile
         main_menu
     end
@@ -32,11 +34,11 @@ class CLI
     def update_profile
         prompt = TTY::Prompt.new
         prompt.select("You can update the following details:") do |menu|
-            menu.choice "Location", -> {User.update_location}
-            menu.choice "Employment Status", -> {User.update_employed}
-            menu.choice "Years of Experience", -> {User.update_experience}
-            menu.choice "Degree", -> {User.update_degree}
-            menu.choice "Exit", -> {main_menu}
+            menu.choice "Location", -> {system "clear"; User.update_location}
+            menu.choice "Employment Status", -> {system "clear"; User.update_employed}
+            menu.choice "Years of Experience", -> {system "clear"; User.update_experience}
+            menu.choice "Degree", -> {system "clear"; User.update_degree}
+            menu.choice "Exit", -> {system "clear"; main_menu}
         end
         main_menu
     end
@@ -58,14 +60,16 @@ class CLI
         puts "We are now searching for jobs based on your criteria."
         jobs = []
         jobs_full_description = []
-        jobs = JobPosting.where("job_title = ? AND location = ? AND years_experience <= ? AND degree_required = ? AND salary >= ? AND remote = ?", @job_title, @location, @years_experience, @degree, @salary, @remote)
+        jobs = JobPosting.where("job_title LIKE ? AND location LIKE ? AND years_experience <= ? AND degree_required = ? AND salary >= ? AND remote = ?", "%#{@job_title}%", "%#{@location}%", @years_experience, @degree, @salary, @remote)
         jobs.map { |job| jobs_full_description << "Job Posting #{job.id}: #{job.job_title} in #{job.location}: $#{job.salary} per/year." }
-        puts "We currently have #{jobs.count} jobs matching your search:"
+        job_count = jobs.count
+        system "clear"
+        puts "We currently have #{job_count} jobs matching your search:"
         puts jobs_full_description
         prompt = TTY::Prompt.new
         prompt.select("Would you like to apply for any of these jobs?") do |menu|
-            menu.choice "Yes", -> {Application.application_submit}
-            menu.choice "No", -> {main_menu}
+            menu.choice "Yes", -> {system "clear"; Application.application_submit}
+            menu.choice "No", -> {system "clear"; main_menu}
         end
         main_menu
     end
@@ -75,8 +79,6 @@ class CLI
         answer = prompt.select("Ready to submit your application?", %w(Yes No))
         if answer == "Yes"
             Application.application_submit
-        else
-            return
         end
         main_menu
     end
@@ -104,4 +106,21 @@ class CLI
         end
         main_menu
     end
+
+    def view_profile
+        current_user = User.get_current_user
+        puts "Welcome #{current_user.name}!"
+        puts "Date of Birth: #{current_user.dob}"
+        puts "Location: #{current_user.location}"
+        puts "Degree: #{current_user.degree}"
+        puts "Years of Experience: #{current_user.years_experience}"
+        if current_user.employed == true
+            employment_status = "Employed"
+        else
+            employment_status = "Unemployed"
+        end
+        puts "Employment Status: #{employment_status}"
+        main_menu
+    end
+
 end

@@ -1,16 +1,9 @@
 require_relative '../config/environment'
-
+require 'rest-client'
 
 system("clear")
 app = CLI.new
 app.main_menu
-# app.create_profile
-# app.update_profile
-# app.submit_application
-# app.saved_job_postings
-# app.find_matching_job_positions
-# app.jobs_applied
-# app.delete_all_apps
 
 # puts "HELLO WORLD"
 

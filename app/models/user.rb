@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
         puts "Please enter your User ID #:"
         current_user_id = gets.chomp
         @current_user = self.where("id = ?", current_user_id)[0]
+        system "clear"
+        @current_user
     end
 
     def self.get_dob
@@ -34,6 +36,7 @@ class User < ActiveRecord::Base
         location = gets.chomp
         current_user.location = location
         current_user.save
+        system "clear"
         puts "Thank you! Your location has now been updated."
     end
 
@@ -53,6 +56,7 @@ class User < ActiveRecord::Base
         current_user = User.get_current_user
         current_user.degree = User.get_degree
         current_user.save
+        system "clear";
         puts "Thank you! Your degree has now been updated."
     end
 
@@ -68,7 +72,8 @@ class User < ActiveRecord::Base
         years_experience = gets.chomp
         current_user.years_experience = years_experience.to_i
         current_user.save
-        puts "Thank you! Your experience has now been updated.."
+        system "clear";
+        puts "Thank you! Your experience has now been updated."
     end
 
     def self.employed?
@@ -90,12 +95,14 @@ class User < ActiveRecord::Base
         current_user = User.get_current_user
         current_user.employed = User.employed?
         current_user.save
+        system "clear";
         puts "Thank you! Your employment status has now been updated."
     end
 
     def self.create_profile
         user = User.create(name: @name, dob: @dob, location: @location, degree: @degree, years_experience: @years_experience, employed: @employed)
         @user_id = user.id
+        system "clear";
         puts "Thank you! We are now creating your user profile."
         puts "Your User ID is #{@user_id}."
     end
@@ -103,6 +110,7 @@ class User < ActiveRecord::Base
     def self.delete_user
         user = User.get_current_user
         user.destroy
+        system "clear";
         puts "Your profile has been deleted."
     end
 
