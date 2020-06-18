@@ -4,6 +4,7 @@ Bundler.require
 # require_all 'models'
 require_all 'lib'
 
+ActiveRecord::Base.logger = nil
         
 require_relative '../app/models/application.rb'
 require_relative '../app/models/cli.rb'

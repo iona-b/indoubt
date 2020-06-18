@@ -10,6 +10,7 @@ class CLI
             menu.choice "View User Profile", -> {system "clear"; view_profile}
             menu.choice "Update User Profile", -> {system "clear"; update_profile}
             menu.choice "Search for Job Positions", -> {system "clear"; find_matching_job_positions}
+            menu.choice "View Job Statistics", -> {system "clear"; statistics_menu}
             menu.choice "Apply for a Job", -> {system "clear"; submit_application}
             menu.choice "View Your Job Applications", -> {system "clear"; jobs_applied}
             menu.choice "Delete Your Job Applications", -> {system "clear"; delete_applications}
@@ -17,6 +18,19 @@ class CLI
             menu.choice "Exit", -> {system "clear"; exit}
         end
     end
+
+    def statistics_menu
+        prompt = TTY::Prompt.new
+        prompt.select("Welcome to the statistics menu. What would you like to do?") do |menu|
+            menu.choice "View the average salary by job title and city.", -> {system "clear"; JobPosting.average_salary_location_title}
+            menu.choice "View the average salary by job title.", -> {system "clear"; JobPosting.average_salary_title}
+            menu.choice "View the average salary by city.", -> {system "clear"; JobPosting.average_salary_location}
+            menu.choice "View the average experience required for jobs.", -> {system "clear"; JobPosting.average_experience_title}
+            menu.choice "View the average experience of all users.", -> {system "clear"; User.average_experience}
+            menu.choice "Exit", -> {system "clear"; main_menu}
+        end
+    end
+
  
     def create_profile
         puts "Hi there! Let's create a profile for your job search."

@@ -114,4 +114,10 @@ class User < ActiveRecord::Base
         puts "Your profile has been deleted."
     end
 
+    def self.average_experience
+        experience = self.all.map {|user| user.years_experience.to_i}.sum
+        average = experience.to_f/self.all.count
+        rounded_average = average.round(1)
+        puts "The average experience for all users is #{rounded_average} years."
+    end
 end

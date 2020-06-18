@@ -22,8 +22,20 @@
     - How to use your application (commands that can be run).
     - What your program looks like (screenshots).
 * Create demo video (2 minutes max).
-* Prepare presentation (3 minutes max) which:
-    - Describe something you struggled to build, and show us how you ultimately implemented it in your code.
-    - Discuss 3 things you learned in the process of working on this project.
-    - Address, if anything, what you would change or add to what you have today?
-    - Present any code you would like to highlight.
+* Prepare presentation (3 minutes max) which: 
+    - CARLY(Optional): Present any code you would like to highlight.
+        > Job search and API
+    - IONA: Describe something you struggled to build, and show us how you ultimately implemented it in your code.
+        > Displaying job search results and multiple submitted applications, achieved this by iterating through class instances
+        > Utilizing an API for applicable job posting fields and completing other fields through randomization and sampling
+    - IONA(CARLY): Discuss 3 things you learned in the process of working on this project.
+        > tty-prompt, faker
+        > ActiveRecord, migrations
+        > GitHub Jobs API 
+    - JOSH: Address, if anything, what you would change or add to what you have today?
+        > Ability to search for jobs in multiple different ways
+        > Ability to search then sort jobs by category
+        > Login system
+        > User search for employers
+        > Map/Distance system for job search? (Geocoder)
+        
