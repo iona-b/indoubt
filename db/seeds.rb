@@ -15,6 +15,20 @@ require_relative '../app/adapter/api_link.rb'
 
 # degree_options =["None", "High School", "Bachelors", "Masters", "Phd"]
 # city_options = ["San Francisco", "Seattle", "Portland", "Los Angeles", "San Diego", "New York"]
+# degree_options =["Bachelors", "Masters", "Phd"]
+# contract_type =["Full Time", "Part Time"]
+
+# 25.times do
+#     JobPosting.create(
+#         location: city_options.sample,
+#         job_title: "Senior Software Engineer",
+#         salary: Faker::Number.between(120000, 250000),
+#         contract_type: contract_type.sample,
+#         remote: Faker::Boolean.boolean,
+#         years_experience: Faker::Number.between(1, 5),
+#         degree_required: degree_options.sample
+#     )
+# end
 
 # 50.times do
 #     User.create(
