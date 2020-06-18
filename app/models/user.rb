@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
     has_many :applications
     has_many :job_postings, through: :applications
 
+    attr_accessor :current_user
+
     def self.get_user_name
         puts "Please enter your name:"
         name = gets.chomp
@@ -10,7 +12,6 @@ class User < ActiveRecord::Base
     end
     
     def self.get_current_user
-        # Validate that the id # exists
         puts "Please enter your User ID #:"
         current_user_id = gets.chomp
         @current_user = self.where("id = ?", current_user_id)[0]
@@ -31,11 +32,11 @@ class User < ActiveRecord::Base
     end
 
     def self.update_location
-        current_user = User.get_current_user
+        user = @current_user
         puts "Please enter your new location:"
         location = gets.chomp
-        current_user.location = location
-        current_user.save
+        user.location = location
+        user.save
         system "clear"
         puts "Thank you! Your location has now been updated."
     end
@@ -53,9 +54,9 @@ class User < ActiveRecord::Base
     end
 
     def self.update_degree
-        current_user = User.get_current_user
-        current_user.degree = User.get_degree
-        current_user.save
+        user = @current_user
+        user.degree = User.get_degree
+        user.save
         system "clear";
         puts "Thank you! Your degree has now been updated."
     end
@@ -67,11 +68,11 @@ class User < ActiveRecord::Base
     end
 
     def self.update_experience
-        current_user = User.get_current_user
+        user = @current_user
         puts "Please enter how many years experience you have:"
         years_experience = gets.chomp
-        current_user.years_experience = years_experience.to_i
-        current_user.save
+        user.years_experience = years_experience.to_i
+        user.save
         system "clear";
         puts "Thank you! Your experience has now been updated."
     end
@@ -92,9 +93,9 @@ class User < ActiveRecord::Base
     end
 
     def self.update_employed
-        current_user = User.get_current_user
-        current_user.employed = User.employed?
-        current_user.save
+        user = @current_user
+        user.employed = User.employed?
+        user.save
         system "clear";
         puts "Thank you! Your employment status has now been updated."
     end
@@ -108,8 +109,9 @@ class User < ActiveRecord::Base
     end
       
     def self.delete_user
-        user = User.get_current_user
-        user.destroy
+        puts "For security, we require that you confirm your User ID #."
+        current_user = self.get_current_user
+        current_user.destroy
         system "clear";
         puts "Your profile has been deleted."
     end

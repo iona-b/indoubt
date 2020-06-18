@@ -1,37 +1,21 @@
 require 'tty-prompt'
 class CLI
 
-    attr_accessor :name, :dob, :location, :degree, :years_experience, :employed, :user_id, :job_posting_id
-
-    def main_menu
+    attr_accessor :name, :dob, :location, :degree, :years_experience, :employed, :current_user
+    def login
         prompt = TTY::Prompt.new
-        prompt.select("Welcome to InDoubt, the #1 rated job search app! What would you like to do?") do |menu|
-            menu.choice "Create User Profile", -> {system "clear"; create_profile}
-            menu.choice "View User Profile", -> {system "clear"; view_profile}
-            menu.choice "Update User Profile", -> {system "clear"; update_profile}
-            menu.choice "Search for Job Positions", -> {system "clear"; find_matching_job_positions}
-            menu.choice "View Job Statistics", -> {system "clear"; statistics_menu}
-            menu.choice "Apply for a Job", -> {system "clear"; submit_application}
-            menu.choice "View Your Job Applications", -> {system "clear"; jobs_applied}
-            menu.choice "Delete Your Job Applications", -> {system "clear"; delete_applications}
-            menu.choice "Delete Your Profile", -> {system "clear"; delete_user}
+        prompt.select("Welcome to InDoubt, the #1 rated job search app!") do |menu|
+            menu.choice "Login", -> {system "clear"; login_id}
+            menu.choice "Create Profile", -> {system "clear"; create_profile}
             menu.choice "Exit", -> {system "clear"; exit}
         end
+        main_menu
     end
 
-    def statistics_menu
-        prompt = TTY::Prompt.new
-        prompt.select("Welcome to the statistics menu. What would you like to do?") do |menu|
-            menu.choice "View the average salary by job title and city.", -> {system "clear"; JobPosting.average_salary_location_title}
-            menu.choice "View the average salary by job title.", -> {system "clear"; JobPosting.average_salary_title}
-            menu.choice "View the average salary by city.", -> {system "clear"; JobPosting.average_salary_location}
-            menu.choice "View the average experience required for jobs.", -> {system "clear"; JobPosting.average_experience_title}
-            menu.choice "View the average experience of all users.", -> {system "clear"; User.average_experience}
-            menu.choice "Exit", -> {system "clear"; main_menu}
-        end
+    def login_id
+        @user = User.get_current_user 
     end
 
- 
     def create_profile
         puts "Hi there! Let's create a profile for your job search."
         User.get_user_name
@@ -45,6 +29,37 @@ class CLI
         main_menu
     end
 
+    def main_menu
+        prompt = TTY::Prompt.new
+        prompt.select("Welcome to InDoubt! What would you like to do?") do |menu|
+            menu.choice "View User Profile", -> {system "clear"; view_profile}
+            menu.choice "Update User Profile", -> {system "clear"; update_profile}
+            menu.choice "Search for Job Positions", -> {system "clear"; find_matching_job_positions}
+            menu.choice "View Job Statistics", -> {system "clear"; statistics_menu}
+            menu.choice "Apply for a Job", -> {system "clear"; submit_application}
+            menu.choice "View Your Job Applications", -> {system "clear"; jobs_applied}
+            menu.choice "Delete Your Job Applications", -> {system "clear"; delete_applications}
+            menu.choice "Delete Your Profile", -> {system "clear"; delete_user}
+            menu.choice "Log out", -> {system "clear"; login}
+        end
+    end
+
+    def view_profile
+        user = @user
+        puts "Welcome #{user.name}!"
+        puts "Date of Birth: #{user.dob}"
+        puts "Location: #{user.location}"
+        puts "Degree: #{user.degree}"
+        puts "Years of Experience: #{user.years_experience}"
+        if user.employed == true
+            employment_status = "Employed"
+        else
+            employment_status = "Unemployed"
+        end
+        puts "Employment Status: #{employment_status}"
+        main_menu
+    end
+ 
     def update_profile
         prompt = TTY::Prompt.new
         prompt.select("You can update the following details:") do |menu|
@@ -59,14 +74,14 @@ class CLI
 
     def get_search_criteria 
         puts "Thank you for beginning your job search with us! In order to find the job which will suit you best, we'll need some more information from you."
-        @current_user = User.get_current_user
+        user = @user
         @job_title = JobPosting.get_job_title
         @salary = JobPosting.get_preferred_salary
         @contract_type = JobPosting.get_contract_type
         @remote = JobPosting.remote?
-        @location = @current_user.location
-        @years_experience = @current_user.years_experience
-        @degree = @current_user.degree
+        @location = user.location
+        @years_experience = user.years_experience
+        @degree = user.degree
     end
 
     def find_matching_job_positions 
@@ -86,6 +101,19 @@ class CLI
             menu.choice "No", -> {system "clear"; main_menu}
         end
         main_menu
+    end
+
+    def statistics_menu
+        prompt = TTY::Prompt.new
+        prompt.select("Welcome to the statistics menu. What would you like to do?") do |menu|
+            menu.choice "View the average salary by job title and city.", -> {system "clear"; JobPosting.average_salary_location_title}
+            menu.choice "View the average salary by job title.", -> {system "clear"; JobPosting.average_salary_title}
+            menu.choice "View the average salary by city.", -> {system "clear"; JobPosting.average_salary_location}
+            menu.choice "View the average experience required for jobs.", -> {system "clear"; JobPosting.average_experience_title}
+            menu.choice "View the average experience of all users.", -> {system "clear"; User.average_experience}
+            menu.choice "Exit", -> {system "clear"; main_menu}
+        end
+        statistics_menu
     end
 
     def submit_application
@@ -118,22 +146,6 @@ class CLI
             menu.choice "Yes! I would like to delete my profile.", -> {User.delete_user}
             menu.choice "No! Don't delete my profile", -> {main_menu}
         end
-        main_menu
-    end
-
-    def view_profile
-        current_user = User.get_current_user
-        puts "Welcome #{current_user.name}!"
-        puts "Date of Birth: #{current_user.dob}"
-        puts "Location: #{current_user.location}"
-        puts "Degree: #{current_user.degree}"
-        puts "Years of Experience: #{current_user.years_experience}"
-        if current_user.employed == true
-            employment_status = "Employed"
-        else
-            employment_status = "Unemployed"
-        end
-        puts "Employment Status: #{employment_status}"
         main_menu
     end
 

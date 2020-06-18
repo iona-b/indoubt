@@ -5,18 +5,22 @@ class Application < ActiveRecord::Base
     belongs_to :user
     belongs_to :job_posting
 
+    def self.application_security
+        puts "For security, we require that you confirm your User ID #."
+        @current_user = User.get_current_user
+    end
 
     def self.application_submit
-        current_user = User.get_current_user
+        self.application_security
         job_id = JobPosting.get_job_id
-        application = Application.create(user_id: current_user.id, job_posting_id: job_id)
+        application = Application.create(user_id: @current_user.id, job_posting_id: job_id)
         system "clear"
         puts "Your application has been submitted! Your application ID # is #{application.id}."
     end
 
     def self.submitted_applications
-        current_user = User.get_current_user
-        @applications = Application.where("user_id = ?", current_user.id)
+        self.application_security
+        @applications = Application.where("user_id = ?", @current_user.id)
         available_jobs = []
         JobPosting.all.each do |posting|
             @applications.each do |application|
@@ -37,8 +41,8 @@ class Application < ActiveRecord::Base
     end
 
     def self.delete_selected_application
-        current_user = User.get_current_user
-        all_applications = self.all.where("user_id = ?", current_user.id)
+        self.application_security
+        all_applications = self.all.where("user_id = ?", @current_user.id)
         puts "Please enter the application ID # for the application you wish to delete:"
         application_id = gets.chomp
         application = all_applications.where("id = ?", application_id)
@@ -48,8 +52,8 @@ class Application < ActiveRecord::Base
     end
 
     def self.delete_all_applications
-        current_user = User.get_current_user
-        all_applications = self.all.where("user_id = ?", current_user.id)
+        self.application_security
+        all_applications = self.all.where("user_id = ?", @current_user.id)
         all_applications.destroy_all
         system "clear"
         puts "Your applications have been deleted."

@@ -1,13 +1,10 @@
 require_relative '../config/environment'
 require 'rest-client'
+require 'pry'
 
 system("clear")
 app = CLI.new
-app.main_menu
+app.login
 
 # puts "HELLO WORLD"
-
-
-require 'pry'
-
 # binding.pry
