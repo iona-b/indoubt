@@ -35,7 +35,8 @@
     - JOSH: Address, if anything, what you would change or add to what you have today?
         > Ability to search for jobs in multiple different ways
         > Ability to search then sort jobs by category
-        > Login system
+        > Login system (which we achieved today)
         > User search for employers
         > Map/Distance system for job search? (Geocoder)
+        > Bad inputs and other checks/polishing
         

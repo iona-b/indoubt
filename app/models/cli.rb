@@ -26,7 +26,7 @@ class CLI
         User.employed?
         system "clear";
         user_id = User.create_profile
-        main_menu
+        login
     end
 
     def main_menu
@@ -92,7 +92,6 @@ class CLI
         jobs = JobPosting.where("job_title LIKE ? AND location LIKE ? AND years_experience <= ? AND degree_required = ? AND salary >= ? AND remote = ?", "%#{@job_title}%", "%#{@location}%", @years_experience, @degree, @salary, @remote)
         jobs.map { |job| jobs_full_description << "Job Posting #{job.id}: #{job.job_title} in #{job.location}: $#{job.salary} per/year." }
         job_count = jobs.count
-        system "clear"
         puts "We currently have #{job_count} jobs matching your search:"
         puts jobs_full_description
         prompt = TTY::Prompt.new
@@ -146,7 +145,7 @@ class CLI
             menu.choice "Yes! I would like to delete my profile.", -> {User.delete_user}
             menu.choice "No! Don't delete my profile", -> {main_menu}
         end
-        main_menu
+        login
     end
 
 end
